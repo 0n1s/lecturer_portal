@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.beardedhen.androidbootstrap.BootstrapEditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        app:bootstrapBrand="primary"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:hint="Research area name"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:inputType="textPersonName"
+         />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/editText"
+        android:layout_marginEnd="12dp" />
+
+    <com.beardedhen.androidbootstrap.BootstrapEditText
+        android:id="@+id/editText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/editText"
+        android:layout_below="@+id/spinner"
+        android:hint="Description"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        app:bootstrapSize="lg"
+        app:roundedCorners="true"
+        app:bootstrapBrand="primary"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:text="Save" />
+</RelativeLayout>

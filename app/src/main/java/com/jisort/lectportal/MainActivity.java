@@ -1,10 +1,10 @@
 package com.jisort.lectportal;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,8 +18,12 @@ import android.widget.Toast;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,8 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         getSupportActionBar().setIcon(R.drawable.kk);
+
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -47,12 +53,46 @@ public class MainActivity extends AppCompatActivity
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
-                if (tabId == R.id.home)
+
+                Fragment fragment;
+                FragmentManager fm;
+                FragmentTransaction ft;
+                switch (tabId)
                 {
-                    // The tab with id R.id.tab_favorites was selected,
-                    // change your content accordingly.
-                    Toast.makeText(MainActivity.this, "Am at home", Toast.LENGTH_SHORT).show();
+                    case R.id.home:
+
+                        fragment =  new Lec_portal_home();
+                         fm = getFragmentManager();
+                         ft = fm.beginTransaction();
+                        ft.replace(R.id.fragment_place_place, fragment);
+                        ft.addToBackStack("home");
+                        ft.commit();
+
+                        break;
+                    case R.id.projects:
+                        fragment =  new Projects();
+                        fm = getFragmentManager();
+                        ft = fm.beginTransaction();
+                        ft.replace(R.id.fragment_place_place, fragment);
+                        ft.addToBackStack("projects");
+                        ft.commit();
+
+                    case R.id.students:
+                        fragment =  new Projects();
+                        fm = getFragmentManager();
+                        ft = fm.beginTransaction();
+                        ft.replace(R.id.fragment_place_place, fragment);
+                        ft.addToBackStack("projects");
+                        ft.commit();
+                    case R.id.profile:
+                        fragment =  new Projects();
+                        fm = getFragmentManager();
+                        ft = fm.beginTransaction();
+                        ft.replace(R.id.fragment_place_place, fragment);
+                        ft.addToBackStack("projects");
+                        ft.commit();
                 }
+
             }
         });
     }

@@ -10,7 +10,7 @@
     <tab
         id="@+id/students"
         icon="@drawable/remaining"
-        title="Friends" />
+        title="Students" />
 
     <tab
         id="@+id/profile"
