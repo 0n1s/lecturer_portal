@@ -1,0 +1,19 @@
+<tabs>
+    <tab
+        id="@+id/home"
+        icon="@drawable/home"
+        title="Home" />
+    <tab
+        id="@+id/projects"
+        icon="@drawable/schools"
+        title="Projects" />
+    <tab
+        id="@+id/students"
+        icon="@drawable/remaining"
+        title="Friends" />
+
+    <tab
+        id="@+id/profile"
+        icon="@drawable/user"
+        title="Profile" />
+</tabs>
