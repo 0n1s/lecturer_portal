@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bitmap
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@android:drawable/ic_lock_silent_mode_off"
+    android:tint="@color/colorPrimary"/>
+
+

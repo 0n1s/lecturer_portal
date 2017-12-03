@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="5dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/docsss" />
+
+    <com.beardedhen.androidbootstrap.AwesomeTextView
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        app:roundedCorners="true"
+        android:layout_height="wrap_content"
+        app:bootstrapBrand="primary"
+        app:bootstrapSize="sm"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="18dp"
+        android:gravity="center"
+        android:layout_toEndOf="@+id/imageView3"
+        android:text="Document type" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView11"
+        android:layout_below="@+id/textView11"
+        android:layout_toEndOf="@+id/imageView3"
+        android:text="TextView" />
+
+    <com.beardedhen.androidbootstrap.AwesomeTextView
+        android:id="@+id/textView13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:bootstrapBrand="primary"
+        android:layout_below="@+id/textView12"
+        android:layout_toEndOf="@+id/imageView3"
+        android:text="Date uploaded" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView13"
+        android:layout_toEndOf="@+id/imageView3"
+        android:text="TextView" />
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView3"
+        app:roundedCorners="true"
+        android:clickable="false"
+        android:focusable="false"
+        android:layout_centerHorizontal="true"
+        android:text="Touch for action"
+        app:bootstrapBrand="primary"
+        app:bootstrapSize="sm" />
+</RelativeLayout>

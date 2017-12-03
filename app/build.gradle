@@ -51,6 +51,18 @@ dependencies {
     //lovely dialog
     compile 'com.yarolegovich:lovely-dialog:1.0.7'
     //sweet alert dialog
+    compile 'com.github.vipulasri:timelineview:1.0.5'
+    implementation 'am.appwise.components:NoInternetDialog:1.1.1'
+    compile 'com.orhanobut:dialogplus:1.11@aar'
+    compile 'com.crowdfire.cfalertdialog:cfalertdialog:1.0.1'
+
+    //file upload
+    compile 'net.gotev:uploadservice:2.1'
+
+    compile 'com.github.bassaer:chatmessageview:1.3.5'
+
+
+
 
 
 }
