@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -38,6 +39,8 @@ import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.crowdfire.cfalertdialog.CFAlertDialog;
+import com.github.bassaer.chatmessageview.models.Message;
+import com.github.bassaer.chatmessageview.models.User;
 import com.github.bassaer.chatmessageview.views.ChatView;
 import com.orhanobut.dialogplus.DialogPlus;
 
@@ -71,8 +74,11 @@ import java.util.UUID;
 
 import am.appwise.components.ni.NoInternetDialog;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.jisort.lectportal.Lec_portal_home.lec_number;
 import static com.jisort.lectportal.LoginActivity.data;
+import static com.jisort.lectportal.MainActivity.MY_PREFS_NAME;
+import static com.jisort.lectportal.MainActivity.chat_data;
 import static com.jisort.lectportal.URLs.Main_url;
 
 /**
@@ -728,7 +734,7 @@ public void FetchStudent_data(final String student_id)
                                     fm = getFragmentManager();
                                     ft = fm.beginTransaction();
                                     ft.replace(R.id.fragment_place_place, fragment);
-                                    ft.addToBackStack("studentstimeline.");
+                                    ft.addToBackStack("StudentsChat.");
                                     ft.commit();
                                     break;
 
@@ -814,6 +820,8 @@ public void FetchStudent_data(final String student_id)
 
 
     }
+
+
 
 
     public static class StudentsDocuments  extends Fragment
@@ -1021,17 +1029,60 @@ public void FetchStudent_data(final String student_id)
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.projects, container, false);
+            final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.lecstudentchat, container, false);
+            mChatView =rootView.findViewById(R.id.chat_view);
+
+
+            SharedPreferences prefs = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String chatdata = prefs.getString("chat_data", null);
+            //Toast.makeText(getActivity(), chat_data, Toast.LENGTH_SHORT).show();
 
 
             JSONObject json = null;
             try {
 
-                json = new JSONObject(data);
-                JSONArray array = json.getJSONArray("result");
-                JSONObject c = array.getJSONObject(0);
-                String chat_data = c.getString("chat_data");
-                Log.d("chat_data", chat_data);
+                Log.d("chat_data", chatdata);
+
+                JSONArray jsonArray = new JSONArray(chatdata);
+                for(int i=0;  i<jsonArray.length(); i++)
+                {
+                    JSONObject  jsonObject = jsonArray.getJSONObject(i);
+                    String sender= jsonObject.getString("sender");
+                    String receiver= jsonObject.getString("receiver");
+                    String receiver_type= jsonObject.getString("receiver_type");
+                    String time= jsonObject.getString("time");
+                    String msg= jsonObject.getString("msg");
+
+                                if(sender.equals(lec_number))
+                                {
+                                    Bitmap myIcon = null;
+                                    User me = new User(1, sender, myIcon);
+                                    Message message = new Message.Builder()
+                                            .setUser(me)
+                                            .setRightMessage(true)
+                                            .setMessageText(msg)
+                                            .hideIcon(true)
+                                            .build();
+                                    mChatView.send(message);
+                                }
+                                else
+                                {
+
+                                    Bitmap yourIcon = null;
+                                    User you = new User(2,receiver , yourIcon);
+                                    Message receivedMessage = new Message.Builder()
+                                            .setUser(you)
+                                            .setRightMessage(false)
+                                            .setMessageText(msg)
+                                            .hideIcon(true)
+                                            .build();
+                                    mChatView.receive(receivedMessage);
+                                }
+
+
+
+
+                }
 
 
 
@@ -1040,134 +1091,15 @@ public void FetchStudent_data(final String student_id)
                 e.printStackTrace();
             }
 
-
-
-
-
-
-            /*
-            "chat_data":[
-            {
-               "sender":"c89-678\/3087",
-               "receiver":"c89-678\/3087",
-               "receiver_type":"",
-               "time":"2017-11-21 06:42:52",
-               "msg":"Good morning Mr Kaburu, Can we meet today?"
-            },
-            {
-               "sender":"kaburu",
-               "receiver":"c89-678\/3087",
-               "receiver_type":"",
-               "time":"2017-11-21 06:43:01",
-               "msg":"Good morning Mr Kaburu, Can we meet today?"
-            },
-            {
-               "sender":"c89-678\/3089",
-               "receiver":"c89-678\/3087",
-               "receiver_type":"",
-               "time":"2017-11-21 07:02:00",
-               "msg":"I am a bit busy today Mr Momanyi, meet another day maybe"
-            },
-            {
-               "sender":"kaburu",
-               "receiver":"c89-678\/3087",
-               "receiver_type":"",
-               "time":"2017-11-21 07:03:02",
-               "msg":"Good"
-            }
-         ],
-             */
-
-
-
-
-//
-//            String isme="false";
-//            String sender_then=chat.getCurrent_user();
-//            String chatType=chat.getChatType();
-//            String Message_text=chat.getMessage_text();
-//
-//            String MessageReceiver=chat.getMessageReceiver();
-//            String land_id_feteched = chat.getLand_id();
-//
-//            long Time=chat.getTime();
-//            if(chatType.equals(chattype))
-//            {
-//
-//                if( (sender_then.equals(user) ||
-//                        MessageReceiver.equals(user)) &&
-//                        land_id_feteched.equals(land_id))
-//                {
-//
-//
-//                    if(msgto.equals(MessageReceiver))
-//                    {
-//
-//                        if(sender_then.equals(user))
-//                        {
-//                            //eg user, user or land_seller,land_seller, or surveyor,surveyou
-//                            isme="true";
-//                        }
-//
-//
-//
-//                        if(isme.equals("true"))
-//                        {
-//                            Bitmap myIcon = null;
-//                            User me = new User(1, sender_then, myIcon);
-//                            Message message = new Message.Builder()
-//                                    .setUser(me)
-//                                    .setRightMessage(true)
-//                                    .setMessageText(Message_text)
-//                                    .hideIcon(true)
-//                                    .build();
-//                            mChatView.send(message);
-//                        }
-//                        else if (isme.equals("false"))
-//                        {
-//
-//                            Bitmap yourIcon = null;
-//                            User you = new User(2,MessageReceiver , yourIcon);
-//                            Message receivedMessage = new Message.Builder()
-//                                    .setUser(you)
-//                                    .setRightMessage(false)
-//                                    .setMessageText(Message_text)
-//                                    .hideIcon(true)
-//                                    .build();
-//                            mChatView.receive(receivedMessage);
-//                        }
-//
-//
-//                    }
-//
-//
-//
-//
-//                }
-//
-//            }
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-            mChatView = (ChatView)rootView.findViewById(R.id.chat_view);
-            mChatView.setRightBubbleColor(ContextCompat.getColor(getActivity(), R.color.green500));
-            mChatView.setLeftBubbleColor(Color.WHITE);
-            mChatView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.blueGray500));
+            mChatView.setRightBubbleColor(ContextCompat.getColor(getActivity(), R.color.green));
+            mChatView.setLeftBubbleColor(ContextCompat.getColor(getActivity(), R.color.blue));
             mChatView.setSendButtonColor(ContextCompat.getColor(getActivity(), R.color.cyan900));
             mChatView.setSendIcon(R.drawable.ic_action_send);
-            mChatView.setRightMessageTextColor(Color.WHITE);
-            mChatView.setLeftMessageTextColor(Color.BLACK);
-            mChatView.setUsernameTextColor(Color.WHITE);
-            mChatView.setSendTimeTextColor(Color.WHITE);
-            mChatView.setDateSeparatorColor(Color.WHITE);
+            mChatView.setRightMessageTextColor(ContextCompat.getColor(getActivity(), R.color.white));
+            mChatView.setLeftMessageTextColor(ContextCompat.getColor(getActivity(), R.color.white));
+            mChatView.setUsernameTextColor(R.color.white);
+            mChatView.setSendTimeTextColor(R.color.white);
+            mChatView.setDateSeparatorColor(R.color.white);
             mChatView.setInputTextHint("new message...");
             mChatView.setMessageMarginTop(5);
             mChatView.setMessageMarginBottom(5);
@@ -1178,9 +1110,19 @@ public void FetchStudent_data(final String student_id)
                 {
                     String sms= mChatView.getInputText();
                     mChatView.setInputText("");
+                    Bitmap myIcon = null;
+                    User me = new User(1, lec_number, myIcon);
+                    Message message = new Message.Builder()
+                            .setUser(me)
+                            .setRightMessage(true)
+                            .setMessageText(sms)
+                            .hideIcon(true)
+                            .build();
+                    mChatView.send(message);
                     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+
                     ChatMessage send_msg=new ChatMessage(lec_number, current_student,timeStamp, "lec",sms);
-                    send_data(send_msg);
+                    send_data(send_msg, rootView);
 
                 }
 
@@ -1191,7 +1133,7 @@ public void FetchStudent_data(final String student_id)
 
         }
 
-        public void send_data(final ChatMessage chatMessage)
+        public void send_data(final ChatMessage chatMessage , final ViewGroup rootView)
         {
             class AddEmployee extends AsyncTask<Void,Void,String>
             {
@@ -1219,8 +1161,39 @@ public void FetchStudent_data(final String student_id)
                 @Override
                 protected void onPostExecute(final String s)
                 {
-                    Toast.makeText(getActivity(),s, Toast.LENGTH_SHORT).show();
-                }
+                    Log.d("chat_data", s);
+                    JSONObject json = null;
+                    try
+                    {
+                        json = new JSONObject(s);
+                        JSONArray array = json.getJSONArray("result");
+                        JSONObject c = array.getJSONObject(0);
+                        String success =c.getString("success");
+                        if(success.equals("true"))
+                        {
+
+
+                            mChatView =rootView.findViewById(R.id.chat_view);
+                            Toast.makeText(getActivity(), "Message sent:)", Toast.LENGTH_SHORT).show();
+                            String chatdata= c.getString("chat_data");
+                            Log.d("chat_data_after", chatdata);
+                           // Toast.makeText(getActivity(), chatdata, Toast.LENGTH_SHORT).show();
+                            SharedPreferences.Editor editor = getActivity().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                            editor.putString("chat_data", chatdata);
+                            editor.commit();
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), "Sending failed!", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    }
             }
             AddEmployee ae = new AddEmployee();
             ae.execute();

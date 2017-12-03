@@ -53,6 +53,7 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:clickable="false"
+        android:layout_marginBottom="10dp"
         app:roundedCorners="true"
         android:focusable="false"
         android:layout_height="wrap_content"

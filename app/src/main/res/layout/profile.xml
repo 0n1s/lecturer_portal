@@ -1,6 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_margin="5dp"
     android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/studenticonmenu" />
+
+    <com.beardedhen.androidbootstrap.BootstrapLabel
+        android:id="@+id/textView10"
+        android:layout_width="match_parent"
+        app:roundedCorners="true"
+        app:bootstrapBrand="primary"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView5"
+        android:layout_centerHorizontal="true"
+        android:text="Mr. Morris Kaburu" />
+
+    <com.beardedhen.androidbootstrap.AwesomeTextView
+        android:id="@+id/textView14"
+        app:bootstrapText="Email: "
+        app:bootstrapBrand="primary"
+        android:textSize="20dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView10"
+        android:layout_below="@+id/textView10"
+        />
+
+    <com.beardedhen.androidbootstrap.AwesomeTextView
+        android:id="@+id/textView16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView17"
+        android:textSize="20dp"
+        app:bootstrapBrand="primary"
+        app:bootstrapText="Phone number: " />
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="70dp"
+        app:roundedCorners="true"
+        android:text="Logout"
+        app:bootstrapBrand="danger" />
+
+    <com.beardedhen.androidbootstrap.AwesomeTextView
+        android:id="@+id/textView17"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView14"
+        app:bootstrapBrand="success"
+        android:textSize="15dp"
+        android:layout_centerHorizontal="true"
+        android:text="TextView" />
+
+    <com.beardedhen.androidbootstrap.AwesomeTextView
+        android:id="@+id/textView18"
+        app:bootstrapBrand="success"
+        android:textSize="15dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView16"
+        android:layout_centerHorizontal="true"
+        android:text="TextView" />
+
+    <com.beardedhen.androidbootstrap.AwesomeTextView
+        android:id="@+id/textView19"
+        app:bootstrapBrand="primary"
+        app:bootstrapText="Department"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView18"
+        android:layout_centerHorizontal="true"
+        />
+
+    <com.beardedhen.androidbootstrap.AwesomeTextView
+        android:id="@+id/textView20"
+        app:bootstrapBrand="success"
+        android:textSize="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView19"
+        android:layout_below="@+id/textView19"
+        android:text="TextView" />
+
+</RelativeLayout>

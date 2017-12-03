@@ -60,6 +60,8 @@ dependencies {
     compile 'net.gotev:uploadservice:2.1'
 
     compile 'com.github.bassaer:chatmessageview:1.3.5'
+//picasso
+    compile 'com.squareup.picasso:picasso:2.5.2'
 
 
 

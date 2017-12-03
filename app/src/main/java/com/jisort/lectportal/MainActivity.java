@@ -3,6 +3,7 @@ package com.jisort.lectportal;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
@@ -19,12 +20,16 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import static com.jisort.lectportal.LoginActivity.data;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Fragment fragment;
-
+    public static String MY_PREFS_NAME="data";
+    public static String chat_data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +39,27 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setTitle("Lecturer's portal");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+
+
         getSupportActionBar().setIcon(R.drawable.kk);
 
+        JSONObject json = null;
+        try
+        {
+
+            json = new JSONObject(data);
+            JSONArray array = json.getJSONArray("result");
+            JSONObject c = array.getJSONObject(0);
+            chat_data = c.getString("chat_data");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
+        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        editor.putString("chat_data", chat_data);
+        editor.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -76,21 +98,25 @@ public class MainActivity extends AppCompatActivity
                         ft.replace(R.id.fragment_place_place, fragment);
                         ft.addToBackStack("projects");
                         ft.commit();
+                        break;
 
                     case R.id.students:
-                        fragment =  new Projects();
+                        fragment =  new Students();
                         fm = getFragmentManager();
                         ft = fm.beginTransaction();
                         ft.replace(R.id.fragment_place_place, fragment);
                         ft.addToBackStack("projects");
                         ft.commit();
+                        break;
+
                     case R.id.profile:
-                        fragment =  new Projects();
+                        fragment =  new Profile();
                         fm = getFragmentManager();
                         ft = fm.beginTransaction();
                         ft.replace(R.id.fragment_place_place, fragment);
                         ft.addToBackStack("projects");
                         ft.commit();
+                        break;
                 }
 
             }

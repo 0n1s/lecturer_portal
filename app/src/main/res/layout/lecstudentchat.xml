@@ -12,6 +12,7 @@
     <com.github.bassaer.chatmessageview.views.ChatView
         android:id="@+id/chat_view"
         android:layout_width="match_parent"
+        android:layout_marginBottom="70dp"
         android:layout_height="match_parent"/>
 
 

@@ -32,6 +32,8 @@ public class Lec_portal_home extends Fragment
 {
 
     public static String lec_number;
+    public static String chat_data;
+//    public static String lec_number;
 
     public String[] details = new String[4];
     RecyclerView recyclerView ;
