@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.jisort.lectportal.MainActivity"
+    tools:context="com.extremedev.lectportal.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
 
@@ -21,7 +21,6 @@
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_marginBottom="3dp"
         android:layout_alignParentBottom="true"
         app:bb_tabXmlResource="@xml/bottombar_tabs" />
 </RelativeLayout>

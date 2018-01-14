@@ -1,4 +1,4 @@
-package com.jisort.lectportal;
+package com.extremedev.lectportal;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -42,7 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
-import static com.jisort.lectportal.URLs.Main_url;
+import static com.extremedev.lectportal.URLs.Main_url;
 
 /**
  * A login screen that offers login via email/password.
@@ -190,7 +190,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else
 
         {
-            Loginnow("","");
+            Loginnow(mEmailView.getText().toString(),mPasswordView.getText().toString());
 
         }
     }
@@ -323,13 +323,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 HashMap<String,String> params = new HashMap<>();
                 params.put("email",email);
                 params.put("password",password);
+                Log.d("loginparams", String.valueOf(params));
                 RequestHandler rh = new RequestHandler();
                 String res = rh.sendPostRequest(Main_url+"login.php", params);
                 return res;
             }
 
             @Override
-            protected void onPostExecute(final String s) {
+            protected void onPostExecute(final String s)
+            {
                 super.onPostExecute(s);
                 //Toast.makeText(LoginActivity.this,s, Toast.LENGTH_SHORT).show();
                 showProgress(false);

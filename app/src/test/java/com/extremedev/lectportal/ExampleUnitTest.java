@@ -1,4 +1,4 @@
-package com.jisort.lectportal;
+package com.extremedev.lectportal;
 
 import org.junit.Test;
 

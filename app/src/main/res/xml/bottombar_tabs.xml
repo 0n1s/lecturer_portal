@@ -15,5 +15,5 @@
     <tab
         id="@+id/profile"
         icon="@drawable/user"
-        title="Profile" />
+        title="My Profile" />
 </tabs>

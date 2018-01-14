@@ -1,4 +1,4 @@
-package com.jisort.lectportal;
+package com.extremedev.lectportal;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -42,7 +41,6 @@ import com.crowdfire.cfalertdialog.CFAlertDialog;
 import com.github.bassaer.chatmessageview.models.Message;
 import com.github.bassaer.chatmessageview.models.User;
 import com.github.bassaer.chatmessageview.views.ChatView;
-import com.orhanobut.dialogplus.DialogPlus;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
@@ -51,35 +49,29 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import am.appwise.components.ni.NoInternetDialog;
+
+
+
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.jisort.lectportal.Lec_portal_home.lec_number;
-import static com.jisort.lectportal.LoginActivity.data;
-import static com.jisort.lectportal.MainActivity.MY_PREFS_NAME;
-import static com.jisort.lectportal.MainActivity.chat_data;
-import static com.jisort.lectportal.URLs.Main_url;
+import static com.extremedev.lectportal.Lec_portal_home.lec_number;
+import static com.extremedev.lectportal.LoginActivity.data;
+import static com.extremedev.lectportal.MainActivity.MY_PREFS_NAME;
+import static com.extremedev.lectportal.URLs.Main_url;
+import static com.extremedev.lectportal.URLs.doc_link_main;
 
 /**
  * Created by jjsikini on 12/2/17.
@@ -549,11 +541,17 @@ public void FetchStudent_data(final String student_id)
 {
     class GetJSON extends AsyncTask<Void, Void, String> {
 
+
+
+
         ProgressDialog loading;
         ProgressDialog pDialog = new ProgressDialog(getActivity());
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+          //  new AlertDialog.Builder(getActivity()).setMessage(student_id).show();
+
             pDialog.setMessage("Fetching student data..");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -579,6 +577,8 @@ public void FetchStudent_data(final String student_id)
             //Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
 
                 studentAllData=s;
+                Log.d("studentalldata", s);
+
                 Bundle bundle = new Bundle();
                 bundle.putString("data", s);
                 Fragment   fragment =  new ProjectsAmSupervisingMenu();
@@ -588,8 +588,6 @@ public void FetchStudent_data(final String student_id)
                 ft.replace(R.id.fragment_place_place, fragment);
                 ft.addToBackStack("studentsapsupervising.");
                 ft.commit();
-
-
 
 
 
@@ -609,7 +607,6 @@ public void FetchStudent_data(final String student_id)
     }
 
     public static  String studentTimelineData, studentDocumentsData, studentChatData, studentAllData;
-
     public static class ProjectsAmSupervisingMenu  extends Fragment
     {
 
@@ -633,9 +630,12 @@ public void FetchStudent_data(final String student_id)
                 studentDocumentsData=student_docs;
                 String time_line =c.getString("time_line");
                 studentTimelineData=time_line;
+                String chats = c.getString("chat_data");
+                studentChatData=chats;
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } catch (JSONException e)
+            {
+                Log.d("jsonerror", String.valueOf(e));
             }
 
 
@@ -664,12 +664,11 @@ public void FetchStudent_data(final String student_id)
 
             private String[] titles =
                     {
-
                             "Student timeline",
-                            "Proposal documents",
+                            "Student documents",
                             "View student source code",
-                            "Message student"
-
+                            "Message student",
+                            "Post recommendation"
 
                     };
 
@@ -679,7 +678,8 @@ public void FetchStudent_data(final String student_id)
                     R.drawable.studenttimeline,
                     R.drawable.studentdocumets,
                     R.drawable.studentcode,
-                    R.drawable.textstudent
+                    R.drawable.textstudent,
+                    R.drawable.bell
 
             };
 
@@ -738,6 +738,19 @@ public void FetchStudent_data(final String student_id)
                                     ft.commit();
                                     break;
 
+                                    //PostReccomendation
+
+
+                                case 4:
+                                    //StudentsChat
+                                    fragment =  new PostReccomendation();
+                                    fm = getFragmentManager();
+                                    ft = fm.beginTransaction();
+                                    ft.replace(R.id.fragment_place_place, fragment);
+                                    ft.addToBackStack("PostReccomendation");
+                                    ft.commit();
+                                    break;
+
                             }
 
 
@@ -789,7 +802,7 @@ public void FetchStudent_data(final String student_id)
             recyclerView.setLayoutManager(layoutManager);
 
             listitems = new ArrayList<>();
-                Log.d("studentTimelineData", studentTimelineData);
+                //Log.d("studentTimelineData", studentTimelineData);
             try {
                 JSONArray jsonArray = new JSONArray(studentTimelineData);
                 for(int i=0; i<jsonArray.length(); i++)
@@ -821,6 +834,110 @@ public void FetchStudent_data(final String student_id)
 
     }
 
+
+    public static class PostReccomendation  extends Fragment
+    {
+        public RecyclerView recyclerView;
+        public RecyclerView.Adapter adapter;
+        RecyclerView.LayoutManager layoutManager;
+        public List<TimeLineData> listitems;
+        EditText etext;
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.postrecommendation, container, false);
+             etext = (EditText)rootView.findViewById(R.id.addr_edittext);
+            etext.setHint("Enter your recommendations here and click post recommendations!");
+            BootstrapButton btn = (BootstrapButton)rootView.findViewById(R.id.button4);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                  String vvv = etext.getText().toString();
+
+
+                  if(vvv.isEmpty())
+                  {
+                      etext.setError("You MUST write something!");
+                  }
+                    else postrec(etext.getText().toString(), current_student );
+                }
+            });
+
+
+
+            return rootView;
+        }
+
+
+
+
+        public void postrec (final String recommendation,final String reg_ni )
+
+        {
+            final ProgressDialog progressDialog = new  ProgressDialog(getActivity());
+            class AddEmployee extends AsyncTask<Void,Void,String>
+            {
+                @Override
+                protected void onPreExecute()
+                {
+                    super.onPreExecute();
+
+
+
+                    progressDialog.setMessage("Posting recommendation...");
+                    progressDialog.show();
+
+                }
+                @Override
+                protected String doInBackground(Void... v)
+                {
+                    HashMap<String,String> params = new HashMap<>();
+                    params.put("rec",recommendation);
+                    params.put("reg",reg_ni);
+                    RequestHandler rh = new RequestHandler();
+                    String res = rh.sendPostRequest(Main_url+"postrec.php", params);
+                    return res;
+                }
+
+                @Override
+                protected void onPostExecute(final String s)
+                {
+                    super.onPostExecute(s);
+
+                    progressDialog.dismiss();
+
+
+                    String succes =s;
+                    if(succes.equals("1"))
+                    {
+
+                        AlertDialog.Builder  builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage("Operation success!")
+                                .setPositiveButton("Okay", null)
+                                .show();
+                        etext.setText("");
+                    }
+                    else
+                    {
+                        AlertDialog.Builder  builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage("Failed!")
+                                .setPositiveButton("Okay", null)
+                                .show();
+                    }
+
+
+
+
+                }
+            }
+            AddEmployee ae = new AddEmployee();
+            ae.execute();
+
+
+        }
+
+
+    }
 
 
 
@@ -876,7 +993,8 @@ public void FetchStudent_data(final String student_id)
                             public void onClick(DialogInterface dialog, int which)
                             {
                                 dialog.dismiss();
-                                download_documents(map.get("doclink"),map.get("docname"));
+                                download_documents(doc_link_main+map.get("doclink"),map.get("docname"));
+                                Log.d("docLink", map.get("doclink"));
 
                             }
                         });
@@ -933,15 +1051,20 @@ public void FetchStudent_data(final String student_id)
 
                     if(s.equals("true"))
                     {
+
                         Intent intent = new Intent();
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.setAction(Intent.ACTION_VIEW);
                         String type = "application/msword";
                         String file_url="/LecPortalDocuments/"+file_name;
+                        Toast.makeText(getActivity(), "Document downloaded. Check in "+file_url, Toast.LENGTH_SHORT).show();
                         String file_name = Environment.getExternalStorageDirectory().toString()+ file_url;
                         File file = new File(file_name);
+
                         intent.setDataAndType(Uri.fromFile(file), type);
                         startActivity(intent);
+
+
                     }
                     super.onPostExecute(s);
                 }
@@ -1041,9 +1164,9 @@ public void FetchStudent_data(final String student_id)
             JSONObject json = null;
             try {
 
-                Log.d("chat_data", chatdata);
+                Log.d("chat_data", studentChatData);
 
-                JSONArray jsonArray = new JSONArray(chatdata);
+                JSONArray jsonArray = new JSONArray(studentChatData);
                 for(int i=0;  i<jsonArray.length(); i++)
                 {
                     JSONObject  jsonObject = jsonArray.getJSONObject(i);

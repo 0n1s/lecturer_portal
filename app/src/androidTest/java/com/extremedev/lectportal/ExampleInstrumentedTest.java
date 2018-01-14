@@ -1,4 +1,4 @@
-package com.jisort.lectportal;
+package com.extremedev.lectportal;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

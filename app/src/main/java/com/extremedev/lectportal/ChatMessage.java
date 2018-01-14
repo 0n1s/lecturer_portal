@@ -1,4 +1,4 @@
-package com.jisort.lectportal;
+package com.extremedev.lectportal;
 
 /**
  * Created by sikinijs on 8/5/17.

@@ -1,4 +1,4 @@
-package com.jisort.lectportal;
+package com.extremedev.lectportal;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

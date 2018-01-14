@@ -1,4 +1,4 @@
-package com.jisort.lectportal;
+package com.extremedev.lectportal;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,13 +16,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.jisort.lectportal.LoginActivity.data;
+import static com.extremedev.lectportal.LoginActivity.data;
 
 /**
  * Created by jjsikini on 11/24/17.
@@ -154,9 +152,66 @@ public class Lec_portal_home extends Fragment
                     public void onClick(View v) {
                         int position = getAdapterPosition();
                         Fragment  fragment;
-
+                        FragmentManager fm;
+                        FragmentTransaction ft;
                         switch (position) {
+                            case 0:
+                                fragment =  new Students();
+                                fm = getFragmentManager();
+                                ft = fm.beginTransaction();
+                                ft.replace(R.id.fragment_place_place, fragment);
+                                ft.addToBackStack("projects");
+                                ft.commit();
+                                break;
 
+                            case 1:
+                                fragment =  new Students();
+                                fm = getFragmentManager();
+                                ft = fm.beginTransaction();
+                                ft.replace(R.id.fragment_place_place, fragment);
+                                ft.addToBackStack("projects");
+                                ft.commit();
+                                break;
+
+                            case 2:
+                                fragment =  new Projects.ProjectsAmSupervising();
+                                fm = getFragmentManager();
+                                ft = fm.beginTransaction();
+                                ft.replace(R.id.fragment_place_place, fragment);
+                                ft.addToBackStack("ProjectsAmSupervising");
+                                ft.commit();
+                                break;
+                            case 3:
+                                fragment =  new Projects.ViewAllProposals();
+                                fm = getFragmentManager();
+                                ft = fm.beginTransaction();
+                                ft.replace(R.id.fragment_place_place, fragment);
+                                ft.addToBackStack("viewallproposals");
+                                ft.commit();
+
+                                break;
+
+
+
+                                /*
+                                 case 1:
+                                fragment =  new ViewAllProposals();
+                                fm = getFragmentManager();
+                                ft = fm.beginTransaction();
+                                ft.replace(R.id.fragment_place_place, fragment);
+                                ft.addToBackStack("viewallproposals");
+                                ft.commit();
+                                break;
+
+                            case 2:
+                                fragment =  new ProjectsAmSupervising();
+                                fm = getFragmentManager();
+                                ft = fm.beginTransaction();
+                                ft.replace(R.id.fragment_place_place, fragment);
+                                ft.addToBackStack("ProjectsAmSupervising");
+                                ft.commit();
+                                break;
+                                 */
 
                         }
 
